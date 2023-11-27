@@ -19,15 +19,17 @@ Parameters:
   MasterUsername:
     Description: Please enter the Master Username for the RDS Database
     Type: String
+    Default: Sanjay123
 
   MasterUserPassword:
     Description: Please enter the Master Password for the RDS Database
     Type: String
+    Default: Sanjay123
 
   MySQLDBSubnetGroupName:
     Description: Please enter name for RDS Database Instance Subnet Group
     Type: String
-    Default: MySQLDBSubnetGroup
+    Default: MySQLDBSubnetGroup-2312478
   
   VpcCIDR:
     Description: Please enter the IP range (CIDR notation) for this VPC
@@ -447,6 +449,7 @@ Resources:
               yum install -y nmap
               systemctl start httpd
               systemctl enable httpd
+  #           aws s3 cp s3://ecommerce-2312478/index.html /var/www/html/ --recursive
               EC2AZ=$(curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone)
               echo '<center><h1>This Amazon EC2 instance is located in Availability Zone: AZID </h1></center>' > /var/www/html/index.txt
               sed "s/AZID/$EC2AZ/" /var/www/html/index.txt > /var/www/html/index.html
@@ -632,3 +635,29 @@ Outputs:
   MySQLDatabasePort:
     Description: The TCP port of the MySQL Database
     Value: !GetAtt MySQLDatabase.Endpoint.Port
+  # Exported security group ID for RDS access.
+  RDSAccessSecurityGroupOutput:
+    Description: Security Group ID for RDS Access
+    Value: !Ref DatabaseSecurityGroup
+    Export:
+      Name: RDSAccessSecurityGroupOutput
+
+  # Exported master user password for the RDS instance.
+  MyMasterUserPasswordOutput:
+    Description: The master user password for the RDS instance.
+    Value: !Ref MasterUserPassword
+    Export:
+      Name: MasterUserPassword
+
+  # Exported master username for the RDS instance.
+  MyMasterUsernameOutput:
+    Description: The master user name for the RDS instance.
+    Value: !Ref MasterUsername
+    Export:
+      Name: MasterUsername
+  # Exported RDS endpoint for the RDS instance.
+  MyRDSEndpointOutput:
+    Description: The RDS Endpoint for the RDS instance.
+    Value: !GetAtt MySQLDatabase.Endpoint.Address
+    Export:
+      Name: MyRDSEndpoint
