@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>E-commerce Site</title>
+    <style>
+        /* CSS styling for the page layout and elements */
+        body {
+            margin: 0;
+            padding: 20px;
+            max-width: 800px; 
+            margin: 0 auto; 
+        }
+
+        .container {
+            text-align: center;
+            position: relative; 
+        }
+
+        .product-cards-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .product-card {
+            width: 200px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            margin: 10px;
+            flex: 0 0 calc(33.33% - 20px); 
+        }
+
+        .product-card img {
+            width: 100%;
+        }
+
+        .product-card button {
+            width: 100%;
+            padding: 10px;
+            background-color: #F44336;
+            color: white;
+            border: none;
+            margin-top: 10px;
+            cursor: pointer;
+        }
+     
+        .content-wrapper {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="content-wrapper">
+        <div class="container">
+            <h1>E-commerce Site</h1>
+
+            <!-- Customer Information Form -->
+            <h2>Customer Information</h2>
+            <form id="customerForm">
+                <label for="cname">Customer Name:</label><br>
+                <input type="text" id="cname" name="cname"><br>
+                <label for="cemail">Email:</label><br>
+                <input type="email" id="cemail" name="cemail"><br>
+                <label for="caddress">Address:</label><br>
+                <input type="text" id="caddress" name="caddress"><br>
+                <input type="submit" value="Submit">
+            </form>
+
+            <!-- Product Display -->
+            <h2>Product</h2>
+            <div class="product-cards-container">
+                <!-- Product cards with images, names, prices, and quantity input -->
+                <div class="product-card">
+                    <img src="product1.jpg" alt="Product 1">
+                    <h2>Product 1</h2>
+                    <p>Rs 10.00</p>
+                    <input type="number" id="quantityProduct1" name="quantityProduct1" min="1" value="1">
+                    <button onclick="addToCart('Product 1', 10.00, 'quantityProduct1')">Add to Cart</button>
+                </div>
+                
+                <div class="product-card">	
+                    <img src="product2.jpg" alt="Product 2">	
+                    <h2>Product 2</h2>	
+                    <p>Rs 15.00</p>	
+                    <input type="number" id="quantityProduct2" name="quantityProduct2" min="1" value="1">	
+                    <button onclick="addToCart('Product 2', 15.00, 'quantityProduct2')">Add to Cart</button>	
+                </div>	
+
+                <div class="product-card">	
+                    <img src="product3.jpg" alt="Product 3">	
+                    <h2>Product 3</h2>	
+                    <p>Rs 20.00</p>	
+                    <input type="number" id="quantityProduct3" name="quantityProduct3" min="1" value="1">	
+                    <button onclick="addToCart('Product 3', 20.00, 'quantityProduct3')">Add to Cart</button>	
+                </div>	
+
+                <div class="product-card">	
+                    <img src="product4.jpg" alt="Product 4">	
+                    <h2>Product 4</h2>	
+                    <p>Rs 25.00</p>	
+                    <input type="number" id="quantityProduct4" name="quantityProduct4" min="1" value="1">	
+                    <button onclick="addToCart('Product 4', 25.00, 'quantityProduct4')">Add to Cart</button>	
+                </div>	
+
+                <div class="product-card">	
+                    <img src="product5.jpg" alt="Product 5">	
+                    <h2>Product 5</h2>	
+                    <p>Rs 30.00</p>	
+                    <input type="number" id="quantityProduct5" name="quantityProduct5" min="1" value="1">	
+                    <button onclick="addToCart('Product 5', 30.00, 'quantityProduct5')">Add to Cart</button>	
+                </div>	
+            </div>
+
+            <!-- Shopping Cart -->
+            <h2>Shopping Cart</h2>
+            <table id="cartTable">
+                <!-- Table header for cart items -->
+                <tr>
+                    <th>Cart Item ID</th>
+                    <th>Product</th>
+                    <th>Price</th>
+                </tr>
+            </table>
+
+            <!-- Order Submission Form -->
+            <form id="orderForm">
+                <input type="submit" value="Submit Order">
+            </form>
+
+            <!-- Transaction Records -->
+            <h2>Transaction Records</h2>
+            <table id="transactionsTable">
+                <!-- Table header for transaction records -->
+                <tr>
+                    <th>Transaction ID</th>
+                    <th>Product</th>
+                    <th>Amount</th>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <!-- JavaScript Code -->
+    <script>
+        // Array to store items in the shopping cart
+        let shoppingCart = [];
+
+        // Function to send customer information to the backend
+        async function sendCustomerInformation(customerName, customerEmail, customerAddress) {
+            // Retrieve API Gateway URL
+            const apiGatewayURL = await getApiGatewayURL();
+            if (!apiGatewayURL) {
+                console.error('API Gateway URL not available.');
+                return;
+            }
+
+            // Data to send in the request
+            const requestData = {
+                CustomerName: customerName,
+                CustomerEmail: customerEmail,
+                CustomerAddress: customerAddress,
+            };
+
+            // Parameters for the API Gateway request
+            const apiGatewayParams = {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(requestData),
+            };
+
+            try {
+                // Send the request to the API Gateway
+                const response = await fetch(apiGatewayURL + '/prod/userinput', apiGatewayParams);
+                if (response.ok) {
+                    console.log('Data sent successfully:', await response.json());
+                } else {
+                    console.error('Failed to send data:', response.status, await response.text());
+                }
+            } catch (error) {
+                console.error('Error sending data:', error);
+            }
+        }
+
+        // Mapping of product names to IDs
+        const products = {
+            "Product 1": "p1",
+            "Product 2": "p2",
+            // ... (other products)
+        };
+
+        // Function to get product ID from product name
+        function getProductID(productName) {
+            return products[productName];
+        }
+
+        // Mapping of customer names to IDs
+        const customers = {
+            "Customer 1": "c1",
+            "Customer 2": "c2",
+            // ... (other customers)
+        };
+
+        // Function to get customer ID from customer name
+        function getCustomerID(customerName) {
+            return customers[customerName];
+        }
+
+        // Function to send order information to the backend
+        async function sendOrderInformation(customerName) {
+            // Retrieve API Gateway URL
+            const apiGatewayURL = await getApiGatewayURL();
+            if (!apiGatewayURL) {
+                displayError('API Gateway URL not available.');
+                return;
+            }
+
+            // Get the customer's ID
+            const CustomerID = 1;
+
+            // Loop through items in the shopping cart
+            for (let item of shoppingCart) {
+                const ProductID = getProductID(item.productName); 
+
+                // Data to send in the order request
+                const requestData = {
+                    CustomerID: CustomerID,
+                    ProductID: ProductID,
+                    Quantity: item.quantity
+                };
+
+                // Parameters for the API Gateway request
+                const apiGatewayParams = {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(requestData),
+                };
+
+                try {
+                    // Send the order request to the API Gateway
+                    const response = await fetch(apiGatewayURL + '/prod/order', apiGatewayParams);
+                    if (response.ok) {
+                        console.log('Order data sent successfully:', await response.json());
+                        addToTransactions(requestData); // Update transaction records table
+                        shoppingCart = []; // Clear the shopping cart
+                        updateCartTable(); // Update the cart display
+                    } else {
+                        console.error('Failed to send order data:', response.status, await response.text());
+                    }
+                } catch (error) {
+                    console.error('Error sending order data:', error);
+                }
+            }
+        }
+
+        // Function to retrieve API Gateway URL (to be filled by the user)
+        async function getApiGatewayURL() {
+            return 'http://localhost:3000';
+        }
+
+        // Function to add transaction records to the table
+        function addToTransactions(orderData) {
+            // Select the transactions table
+            const transactionTable = document.getElementById('transactionsTable');
+            let totalPrice = 0;
+
+            // Calculate the total price for the transaction
+            orderData.forEach((item) => {
+                totalPrice += item.price * item.quantity;
+            });
+
+            // Insert a new row in the transactions table
+            const row = transactionTable.insertRow(transactionTable.rows.length);
+            const transactionIdCell = row.insertCell(0);
+            const productCell = row.insertCell(1);
+            const amountCell = row.insertCell(2);
+
+            // Populate the cells with data
+            transactionIdCell.textContent = transactionTable.rows.length - 1;
+            productCell.textContent = shoppingCart.length + " item(s)";
+            amountCell.textContent = '$' + totalPrice.toFixed(2);
+        }
+
+        // Event listener for the customer information form submission
+        document.getElementById('customerForm').addEventListener('submit', async function (event) {
+            event.preventDefault();
+
+            // Get customer information from the form
+            const customerName = document.getElementById('cname').value;
+            const customerEmail = document.getElementById('cemail').value;
+            const customerAddress = document.getElementById('caddress').value;
+
+            // Send customer information to the backend (AWS Lambda via API Gateway)
+            await sendCustomerInformation(customerName, customerEmail, customerAddress);
+        });
+
+        // Function to add a product to the shopping cart
+        function addToCart(productName, price, quantityInputId) {
+            const quantity = document.getElementById(quantityInputId).value;
+            shoppingCart.push({ productName: productName, price: price, quantity: parseInt(quantity) });
+            updateCartTable();
+        }
+
+        // Function to update the shopping cart table display
+        function updateCartTable() {
+            const cartTable = document.querySelector('table');
+
+            // Remove existing rows from the cart table
+            while (cartTable.rows.length > 1) {
+                cartTable.deleteRow(1);
+            }
+
+            // Add items from the shopping cart to the table
+            shoppingCart.forEach((item, index) => {
+                const row = cartTable.insertRow(index + 1);
+                const transactionIdCell = row.insertCell(0);
+                const productCell = row.insertCell(1);
+                const amountCell = row.insertCell(2);
+
+                // Populate cells with data
+                transactionIdCell.textContent = index + 1;
+                productCell.textContent = item.productName;
+                amountCell.textContent = 'Rs ' + item.price.toFixed(2);
+            });
+        }
+
+        // Event listener for the order form submission
+        document.getElementById('orderForm').addEventListener('submit', async function (event) {
+            event.preventDefault();
+            await sendOrderInformation();
+        });
+
+        // Function to display an error message
+        function displayError(message) {
+            alert("An error occurred: " + message);
+        }
+    </script>
+</body>
+</html>
