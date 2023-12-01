@@ -16,15 +16,15 @@ Parameters:
     Type: String
     Default: demo-database-2312478
 
-  MasterUsername:
-    Description: Please enter the Master Username for the RDS Database
-    Type: String
-    Default: admin
+#  MasterUsername:
+#    Description: Please enter the Master Username for the RDS Database
+#    Type: String
+#    Default: 
 
-  MasterUserPassword:
-    Description: Please enter the Master Password for the RDS Database
-    Type: String
-    Default: sanjay12
+#  MasterUserPassword:
+#    Description: Please enter the Master Password for the RDS Database
+#    Type: String
+#    Default:
 
   MySQLDBSubnetGroupName:
     Description: Please enter name for RDS Database Instance Subnet Group
