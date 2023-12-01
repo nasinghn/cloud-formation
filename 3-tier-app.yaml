@@ -500,9 +500,9 @@ Resources:
     DependsOn: WebTierLaunchTemplate
     Properties:
       AutoScalingGroupName: !Sub ${EnvironmentName}-WebTier-AutoScaleGroup
-      DesiredCapacity: 2
+      DesiredCapacity: 1
       MinSize: 1
-      MaxSize: 3
+      MaxSize: 2
       LaunchTemplate: 
         LaunchTemplateId: !Ref WebTierLaunchTemplate
         Version: !GetAtt WebTierLaunchTemplate.LatestVersionNumber
@@ -586,9 +586,9 @@ Resources:
     DependsOn: AppTierLaunchTemplate
     Properties:
       AutoScalingGroupName: !Sub ${EnvironmentName}-AppTier-AutoScaleGroup
-      DesiredCapacity: 2
+      DesiredCapacity: 1
       MinSize: 1
-      MaxSize: 3
+      MaxSize: 2
       LaunchTemplate: 
         LaunchTemplateId: !Ref AppTierLaunchTemplate
         Version: !GetAtt AppTierLaunchTemplate.LatestVersionNumber
