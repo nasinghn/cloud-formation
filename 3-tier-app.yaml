@@ -448,7 +448,10 @@ Resources:
               sudo yum install -y nginx
               sudo systemctl start nginx
               sudo systemctl enable nginx
-              aws s3 cp s3://ecommerce-3tier/html/  /usr/share/nginx/html/ --recursive
+              cd /home/ec2-user
+              git clone git@github.com:nasinghn/cloud-formation.git
+  #           aws s3 cp s3://ecommerce-3tier/html/  /usr/share/nginx/html/ --recursive
+              sudo cp -r /home/ec2-user/cloud-formation/html/* /usr/share/nginx/html/
               sudo systemctl restart nginx
   #           aws s3 cp s3://ecommerce-2312478/index.html /var/www/html/ --recursive
   #            EC2AZ=$(curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone)
@@ -534,8 +537,10 @@ Resources:
               sudo yum install -y gcc-c++ make
               sudo curl --silent --location https://rpm.nodesource.com/setup_14.x | sudo bash -
               sudo yum install -y nodejs
-              aws s3 cp s3://ecommerce-3tier/nodejs/  /home/ec2-user/ --recursive
+   #          aws s3 cp s3://ecommerce-3tier/nodejs/  /home/ec2-user/ --recursive
               cd /home/ec2-user
+              git clone git@github.com:nasinghn/cloud-formation.git
+              cd /home/ec2-user/cloud-formation/nodejs
               npm install 
               pm2 start index.js
       
