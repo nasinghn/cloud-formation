@@ -406,7 +406,7 @@ Resources:
     Type: AWS::EC2::Instance
     DependsOn: BastionHostSecurityGroup
     Properties:
-      ImageId: ami-0b0dcb5067f052a63
+      ImageId: ami-093467ec28ae4fe03
       KeyName: !Ref KeyPair
       InstanceType: t2.micro
       NetworkInterfaces:
@@ -432,7 +432,7 @@ Resources:
     Properties:
       LaunchTemplateName: !Sub ${EnvironmentName}-WebTier-LaunchTemplate
       LaunchTemplateData:
-        ImageId: ami-0b0dcb5067f052a63
+        ImageId: ami-093467ec28ae4fe03
         InstanceType: t2.micro
         KeyName: !Ref KeyPair
         NetworkInterfaces:
@@ -518,7 +518,7 @@ Resources:
     Properties:
       LaunchTemplateName: !Sub ${EnvironmentName}-AppTier-LaunchTemplate
       LaunchTemplateData:
-        ImageId: ami-0b0dcb5067f052a63
+        ImageId: ami-093467ec28ae4fe03
         InstanceType: t2.micro
         KeyName: !Ref KeyPair
         NetworkInterfaces:
