@@ -19,12 +19,12 @@ Parameters:
   MasterUsername:
     Description: Please enter the Master Username for the RDS Database
     Type: String
-    Default: 
+    Default: admin
 
   MasterUserPassword:
     Description: Please enter the Master Password for the RDS Database
     Type: String
-    Default: 
+    Default: sanjay12
 
   MySQLDBSubnetGroupName:
     Description: Please enter name for RDS Database Instance Subnet Group
