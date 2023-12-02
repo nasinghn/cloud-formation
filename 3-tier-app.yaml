@@ -544,7 +544,7 @@ Resources:
               npm install
               npm install -g pm2
               pm2 start index.js
-      
+              sed -i 's/\(host:/ *\).*/\$MyRDSEndpointOutput/' /home/ec2-user/cloud-formation/nodejs/index.js
       #        echo '<center><h1>This is the Application tier! </h1></center>' > /var/www/html/index.html
 
   AppTierApplicationLoadBalancer:
