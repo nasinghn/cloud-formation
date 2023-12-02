@@ -449,8 +449,7 @@ Resources:
               sudo systemctl start nginx
               sudo systemctl enable nginx
               cd /home/ec2-user
-              git clone git@github.com:nasinghn/cloud-formation.git
-  #           aws s3 cp s3://ecommerce-3tier/html/  /usr/share/nginx/html/ --recursive
+              git clone https://github.com/nasinghn/cloud-formation.git
               sudo cp -r /home/ec2-user/cloud-formation/html/* /usr/share/nginx/html/
               sudo systemctl restart nginx
   #           aws s3 cp s3://ecommerce-2312478/index.html /var/www/html/ --recursive
