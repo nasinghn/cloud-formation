@@ -535,8 +535,7 @@ Resources:
               sudo yum update -y
               sudo yum install -y gcc-c++ make
               sudo curl --silent --location https://rpm.nodesource.com/setup_14.x | sudo bash -
-              sudo yum install -y nodejs         
-   #          aws s3 cp s3://ecommerce-3tier/nodejs/  /home/ec2-user/ --recursive
+              sudo yum install -y nodejs
               cd /home/ec2-user
               git clone https://github.com/nasinghn/cloud-formation.git
               cd /home/ec2-user/cloud-formation/nodejs
