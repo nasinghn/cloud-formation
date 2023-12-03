@@ -4,6 +4,10 @@ files:
  - source: /
    destination: /home/ec2-user/cloud-formation
 hooks:
+BeforeInstall:
+    - location: before-install.sh
+      timeout: 300
+      runas: root
  ApplicationStart:
    - location: deploy.sh
      timeout: 300
