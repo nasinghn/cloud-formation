@@ -24,7 +24,7 @@ Parameters:
   MasterUserPassword:
     Description: Please enter the Master Password for the RDS Database
     Type: String
-    Default: sanjay12
+    Default: 
 
   MySQLDBSubnetGroupName:
     Description: Please enter name for RDS Database Instance Subnet Group
